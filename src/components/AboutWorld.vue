@@ -6,8 +6,11 @@
     <div class="container">
 
       
-           
-            <h2 class="text-center" mt-3>Tareas-App</h2>
+           <div class="d-flex justify-content-center align-items-center box">
+               <h2 class="text-center m-2" mt-3>Tareas-App</h2>
+               <input class="m-2 form-control box_search" type="text" placeholder="Buscar tarea" v-model="query" v-on:input="('search', query)">
+           </div>
+            
 
             <div class="card mb-2">
                 <div class="card-header">
@@ -32,6 +35,8 @@
                 </div>
             
             </div>
+
+           
 
             <div class="card-body" v-for="(item, index) in tareas" :key="index">
 
@@ -101,12 +106,13 @@
             
     
             </div>
+            <div class="mt-3">
+             <small class="mt-3">© 2022 By: Luis Fernando Cordero</small>
+          </div>
 
     </div>
 
 </template>
-
-
 
 
 <script>
@@ -162,25 +168,34 @@ export default {
             this.tareas.splice(index, 1);
             localStorage.setItem('tareas-vue', JSON.stringify(this.tareas));
         },
-  
-
+        
   },
    created: function () {
-       this.copyTareas = [...this.tareas]
+       
         let datosLS = JSON.parse(localStorage.getItem('tareas-vue'));
+        
         console.log(datosLS)
         if (datosLS === null) {
             this.tareas = [];
+             this.copyTareas = [];
         } else {
-            this.tareas = datosLS;  
+            this.tareas = datosLS;
+             this.copyTareas = datosLS;
+           
         }
-    } 
+    }
 }
 
 
 </script>
 
+
 <style scoped>
+
+.box {
+    width: 70%;
+    margin: 0 auto;
+}
 
 .tg {
     display: flex;
