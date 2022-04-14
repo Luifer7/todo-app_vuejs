@@ -1,60 +1,67 @@
+
+
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <h1>Ingresar a la App</h1>
+    
+    <div class="container">
+      
+        <form class="caja">
+          <input class="form-control mt-3" type="text" placeholder="user" v-model="user" v-on:keyup.enter="loguear">
+          <input class="form-control mt-3" type="password" placeholder="password" v-model="pass" v-on:keyup.enter="loguear">
+          <button type="submit" @click="loguear" class="btn btn-success mt-4" to="/about" >Login</button>
+           <small class="mt-4">User: usuario | Password: 123456</small>
+        </form>
+
+     </div>
+   
   </div>
 </template>
+
+
 
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+     data () {
+      return {
+        sesion: [{"user":"usuario","pass":"123456"}],
+        user: '',
+        pass: ''
+      }
+  },
+  mounted() {
+     this.sesion.push({"user":"usuario","pass":"123456"})
+      localStorage.setItem('sesion-vue', JSON.stringify(this.sesion));
+  },
+    methods: {
+        loguear: function () {
+            let loged =   JSON.parse(localStorage.getItem('sesion-vue'));
+        console.log(loged)
+        
+        if (loged[0].user === this.user && loged[0].pass === this.pass ) {
+             this.$router.push('/about');
+              this.sesion = [];
+        } else {
+            this.$router.push('/');
+        }
+            
+        }
+        
+    }
+  
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
+  .caja {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+  }
+
 </style>
